@@ -1,0 +1,46 @@
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Button?>
+<?import java.net.URL?>
+<BorderPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml">
+    <left>
+        <GridPane alignment="CENTER" hgap="10" vgap="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <children>
+                <Label text="Username: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="username_field" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Label text="Password: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <PasswordField fx:id="password_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Full Name: " GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="name_field" promptText="Full Name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="E-Mail: " GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <TextField fx:id="email_field" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+
+                <Label text="Phone #: " GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <TextField fx:id="phone_number_field" promptText="Phone #" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                <Label text="Date of Birth: " GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                <DatePicker fx:id="dob_field" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                <Button text="Register" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#register"/>
+
+                <Label fx:id="validity" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+
+            </children>
+        </GridPane>
+    </left>
+    <stylesheets>
+        <URL value="@style.css"/>
+    </stylesheets>
+</BorderPane>
