@@ -59,27 +59,31 @@ public class Main extends Application{
         //Part 1
         for (int i=0; i < avgHousingPricesByYear.length; i++) {
 
-            gc.setFill(Color.RED);
+            gc.setFill(Color.BLUE);
             double height = avgCommercialPricesByYear[i]/10000;
             gc.fillRect(30*i,200-height,10,height);
 
-            gc.setFill(Color.BLUE);
             height = avgHousingPricesByYear[i]/10000;
+            gc.setFill(Color.RED);
             int x = 10 + 30*i;
             gc.fillRect(x,200-height,10,height);
         }
 
         //Part 2
 
-        int startAngle = 0;
-        int endAngle;
+        double startAngle = 0;
+        double endAngle;
+        double total = 0;
         for (int i = 0; i < pieColours.length; i++) {
-            gc.setFill(pieColours[i]);
-            endAngle = purchasesByAgeGroup[i]/31;
-            gc.fillArc(50, 300, 250, 250, startAngle, endAngle, ArcType.ROUND);
-            startAngle += purchasesByAgeGroup[i]/31;
+            total += purchasesByAgeGroup[i];
         }
 
+        for (int i = 0; i < pieColours.length; i++) {
+            gc.setFill(pieColours[i]);
+            endAngle = (purchasesByAgeGroup[i]/total)*360;
+            gc.fillArc(50, 300, 250, 250, startAngle, endAngle, ArcType.ROUND);
+            startAngle += endAngle;
+        }
     }
 
 
