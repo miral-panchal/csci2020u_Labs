@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
+
 /**
  * Created by miral on 03/02/17.
  */
@@ -61,13 +62,17 @@ public class Main extends Application{
 
             gc.setFill(Color.BLUE);
             double height = avgCommercialPricesByYear[i]/10000;
-            gc.fillRect(30*i,200-height,10,height);
+            gc.fillRect(30*(i+1),200-height,10,height);
 
             height = avgHousingPricesByYear[i]/10000;
             gc.setFill(Color.RED);
-            int x = 10 + 30*i;
+            int x = 10 + 30*(i+1);
             gc.fillRect(x,200-height,10,height);
         }
+
+        gc.setStroke(Color.BLACK);
+        gc.strokeLine(30,200,280,200);
+        gc.strokeLine(30,50,30,200);
 
         //Part 2
 
@@ -80,12 +85,13 @@ public class Main extends Application{
 
         for (int i = 0; i < pieColours.length; i++) {
             gc.setFill(pieColours[i]);
+            gc.setStroke(Color.BLACK);
             endAngle = (purchasesByAgeGroup[i]/total)*360;
             gc.fillArc(50, 300, 250, 250, startAngle, endAngle, ArcType.ROUND);
+            gc.strokeArc(50,300,250,250,startAngle,endAngle,ArcType.ROUND);
             startAngle += endAngle;
         }
     }
-
 
     public static void main (String args[]) { launch(args); }
 }

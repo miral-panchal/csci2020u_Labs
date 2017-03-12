@@ -38,3 +38,12 @@ buildscript {
    injars 'build/libs/lab03-1.0.jar'
    outjars 'build/libs/lab03-1.0.min.jar'
 }
+
+buildscript {
+  repositories { jcenter() }
+  dependencies {
+    classpath 'com.netflix.nebula:gradle-lint-plugin:latest.release'
+  }
+}
+
+apply plugin: 'nebula.lint'

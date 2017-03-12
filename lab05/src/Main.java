@@ -48,12 +48,12 @@ public class Main extends Application {
 
         table.getColumns().addAll(sid_column,assignment_column,midterm_column,exam_column,mark_column,grade_column);
 
-        sid_column.setCellValueFactory(new PropertyValueFactory<StudentRecord, String>("ID"));
-        assignment_column.setCellValueFactory(new PropertyValueFactory<StudentRecord, Float>("Assignment"));
-        midterm_column.setCellValueFactory(new PropertyValueFactory<StudentRecord, Float>("Midterm"));
-        exam_column.setCellValueFactory(new PropertyValueFactory<StudentRecord, Float>("Exam"));
-        mark_column.setCellValueFactory(new PropertyValueFactory<StudentRecord, Float>("Mark"));
-        grade_column.setCellValueFactory(new PropertyValueFactory<StudentRecord, Float>("Grade"));
+        sid_column.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        assignment_column.setCellValueFactory(new PropertyValueFactory<>("Assignment"));
+        midterm_column.setCellValueFactory(new PropertyValueFactory<>("Midterm"));
+        exam_column.setCellValueFactory(new PropertyValueFactory<>("Exam"));
+        mark_column.setCellValueFactory(new PropertyValueFactory<>("Mark"));
+        grade_column.setCellValueFactory(new PropertyValueFactory<>("Grade"));
 
 
         TextField id = new TextField();
