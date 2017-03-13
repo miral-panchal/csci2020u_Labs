@@ -5,12 +5,12 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by miral on 03/03/17.
@@ -20,6 +20,11 @@ public class Main extends Application{
     private Canvas canvas;
     private File weather_file = new File ("weatherwarnings-2015.csv");
     Map<String, Integer> warnings = new TreeMap<>();
+
+    private static Color[] pieColours = {
+            Color.AQUA, Color.GOLD, Color.DARKORANGE,
+            Color.DARKSALMON, Color.LAWNGREEN, Color.PLUM
+    };
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -36,44 +41,78 @@ public class Main extends Application{
         primaryStage.show();
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
         processFile();
         draw(gc);
     }
+    private void processFile() throws IOException {
+        Scanner sc = new Scanner(weather_file);
+        String line;
+        while (sc.hasNextLine()){
+            line = sc.nextLine();
 
-    private void processFile() {
-        try {
-            Scanner sc = new Scanner(weather_file);
+            if (line.contains("FLASH FLOOD"))
+                addToMap("FLASH FLOOD");
 
-            while (sc.hasNext()) {
-                String temp = sc.next();
-                if(temp.equalsIgnoreCase("FLASH FLOOD")) {
-                    int old_count = warnings.get("flash flood");
-                    warnings.put("flash flood",old_count+1);
-                }
+            else if (line.contains("SEVERE THUNDERSTORM"))
+                addToMap("SEVER THUNDERSTORM");
 
-                else if(temp.equalsIgnoreCase("SEVERE THUNDERSTORM")) {
-                    int old_count = warnings.get("severe thunderstorm");
-                    warnings.put("severe thunderstorm",old_count+1);
-                }
+            else if (line.contains("SPECIAL MARINE"))
+                addToMap("SPECIAL MARINE");
 
-                else if(temp.equalsIgnoreCase("SPECIAL MARINE")) {
-                    int old_count = warnings.get("special marine");
-                    warnings.put("special marine",old_count+1);
-                }
+            else if (line.contains("TORNADO"))
+                addToMap("TORNADO");
 
-                else if(temp.equalsIgnoreCase("TORNADO")) {
-                    int old_count = warnings.get("tornado");
-                    warnings.put("tornado",old_count+1);
-                }
-            }
-
-            System.out.println(warnings);
         }
-        catch (Exception e) {e.printStackTrace();}
+        System.out.println(warnings);
+    }
+
+    private void addToMap(String weather){
+        if (warnings.containsKey(weather)) {
+            int old_count = warnings.get(weather);
+            warnings.put(weather,old_count+1);
+        }
+        else
+            warnings.put(weather,1);
     }
 
     private void draw(GraphicsContext gc) {
+        double startAngle = 0;
+        double endAngle;
+        double total = 0;
+
+        Set<String> keys = warnings.keySet();
+        Iterator<String> keyIterator = keys.iterator();
+        while (keyIterator.hasNext()) {
+            String key = keyIterator.next();
+            total += warnings.get(key);
+        }
+
+        int i = 0;
+
+        keys = warnings.keySet();
+        keyIterator = keys.iterator();
+        while (keyIterator.hasNext()) {
+            String key = keyIterator.next();
+            gc.setFill(pieColours[i]);
+            gc.setStroke(Color.BLACK);
+
+            endAngle =(warnings.get(key)/total)*360;
+            gc.fillArc(350,150,300,300,startAngle,endAngle,ArcType.ROUND);
+            gc.strokeArc(350,150,300,300,startAngle,endAngle,ArcType.ROUND);
+            startAngle+=endAngle;
+
+            int y = 50;
+            gc.fillRect(75,200+(i*y),50,30);
+            gc.strokeRect(75,200+(i*y),50,30);
+
+            gc.strokeText(key,140,220+(i*y));
+
+            i++;
+        }
+
     }
+
 
     public static void main (String args[]) { launch(args); }
 }
