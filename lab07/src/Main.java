@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -106,7 +107,9 @@ public class Main extends Application{
             gc.fillRect(75,200+(i*y),50,30);
             gc.strokeRect(75,200+(i*y),50,30);
 
-            gc.strokeText(key,140,220+(i*y));
+           // gc.setFont(new Font("name",9));
+            gc.setFill(Color.BLACK);
+            gc.fillText(key,140,220+(i*y));
 
             i++;
         }
