@@ -22,16 +22,20 @@ import java.util.Scanner;
 public class Main extends Application {
 
     BorderPane layout = new BorderPane();
-    TableView<StudentRecord> table = new TableView();
+
     GridPane grid = new GridPane();
-    File currentFilename = null;
+
+    static TableView<StudentRecord> table;
+    static File currentFilename = null;
+    static ObservableList data;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Lab 05");
+        primaryStage.setTitle("Lab 08");
 
-        ObservableList data = DataSource.getAllMarks();
+        table = new TableView<>();
+        data = DataSource.getAllMarks();
         table.setItems(data);
 
         TableColumn sid_column = new TableColumn("SID");
@@ -117,75 +121,12 @@ public class Main extends Application {
 
         new_item.setOnAction( e -> table.getItems().clear() );
 
-        open_item.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setInitialDirectory(new File("."));
-                currentFilename = fileChooser.showOpenDialog(primaryStage);
-                try {
-                    Scanner sc = new Scanner(currentFilename);
-                    while (sc.hasNextLine()) {
-                        String line = sc.nextLine();
+        open_item.setOnAction(e -> open(primaryStage));
 
-                        String temp [] = line.split(",");
+        save_item.setOnAction(e -> save(primaryStage));
 
-                        data.add(new StudentRecord(temp[0], Float.parseFloat(temp[1]),
-                                Float.parseFloat(temp[2]), Float.parseFloat(temp[3])));
-                    }
-                }
-                catch (Exception e) {e.printStackTrace();}
-            }
-        });
-
-        save_item.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(currentFilename == null) {
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.setInitialDirectory(new File("."));
-                    currentFilename = fileChooser.showOpenDialog(primaryStage);
-                }
-
-                try {
-                    PrintWriter out = new PrintWriter(currentFilename);
-                    ObservableList<StudentRecord> data = table.getItems();
-                    for (StudentRecord student: data) {
-                        out.println(student.getID()+","+student.getAssignment()+","+
-                                student.getMidterm()+","+student.getExam());
-                    }
-                    out.close();
-                }
-                catch (Exception e){e.printStackTrace();}
-
-
-            }
-        });
-
-        save_as_item.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setInitialDirectory(new File("."));
-                currentFilename = fileChooser.showOpenDialog(primaryStage);
-
-                try {
-                    PrintWriter out = new PrintWriter(currentFilename);
-                    ObservableList<StudentRecord> data = table.getItems();
-                    for (StudentRecord student: data) {
-                        out.println(student.getID()+","+student.getAssignment()+","+
-                                student.getMidterm()+","+student.getExam());
-                    }
-                    out.close();
-                }
-                catch (Exception e){e.printStackTrace();}
-
-
-            }
-        });
+        save_as_item.setOnAction(e -> saveAs(primaryStage));
         exit_item.setOnAction( e -> System.exit(0) );
-
-
 
         layout.setCenter(table);
         layout.setBottom(grid);
@@ -195,6 +136,57 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private static void open(Stage primaryStage){
+        table.getItems().clear();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("."));
+        currentFilename = fileChooser.showOpenDialog(primaryStage);
+        try {
+            Scanner sc = new Scanner(currentFilename);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+
+                String temp [] = line.split(",");
+
+                data.add(new StudentRecord(temp[0], Float.parseFloat(temp[1]),
+                        Float.parseFloat(temp[2]), Float.parseFloat(temp[3])));
+            }
+        }
+        catch (Exception e) {e.printStackTrace();}
+    }
+
+    private static void save(Stage primaryStage){
+        if(currentFilename == null)
+            saveAs(primaryStage);
+
+        try {
+            PrintWriter out = new PrintWriter(currentFilename);
+            ObservableList<StudentRecord> data = table.getItems();
+            for (StudentRecord student: data) {
+                out.println(student.getID()+","+student.getAssignment()+","+
+                        student.getMidterm()+","+student.getExam());
+            }
+            out.close();
+        }
+        catch (Exception e){e.printStackTrace();}
+
+
+    }
+
+    private static void saveAs(Stage primaryStage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("."));
+        currentFilename = fileChooser.showOpenDialog(primaryStage);
+
+        try {
+            save(primaryStage);
+        }
+        catch (Exception e){e.printStackTrace();}
+
+
     }
 
     public static void main(String[] args) {
