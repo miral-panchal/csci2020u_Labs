@@ -1,0 +1,18 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox fx:controller="Client.Controller"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10">
+    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+    <HBox spacing="10">
+        <Label text="Username:"></Label>
+        <TextField fx:id="username"></TextField>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Message:"></Label>
+        <TextField fx:id="messageText"></TextField>
+    </HBox>
+    <Button text="Send" onAction="#sendMessage"></Button>
+    <Button text="Exit" onAction="#exit"></Button>
+</VBox>

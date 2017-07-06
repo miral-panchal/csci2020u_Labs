@@ -139,8 +139,7 @@ public class Main extends Application {
     }
 
     private static void open(Stage primaryStage){
-        table.getItems().clear();
-
+        data.clear();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("."));
         currentFilename = fileChooser.showOpenDialog(primaryStage);

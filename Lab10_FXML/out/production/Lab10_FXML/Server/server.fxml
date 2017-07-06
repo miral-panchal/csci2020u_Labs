@@ -1,0 +1,9 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox fx:controller="Server.Controller"
+      xmlns:fx="http://javafx.com/fxml" spacing="10">
+    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+    <TextArea fx:id="messages" editable="false"></TextArea>
+    <Button text="Exit" onAction="#exit"></Button>
+</VBox>

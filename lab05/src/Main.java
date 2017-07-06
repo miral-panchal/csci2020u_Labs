@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -93,6 +94,13 @@ public class Main extends Application {
                 assignment.clear();
                 midterm.clear();
                 exam.clear();
+            }
+        });
+
+        add.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                add.setStyle("-fx-border: 1px solid #666;");
             }
         });
 
